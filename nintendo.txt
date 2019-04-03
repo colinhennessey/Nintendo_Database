@@ -1,0 +1,97 @@
+-- Drop all tables
+Drop table if exists Play;
+Drop table if exists Profit;
+Drop table if exists Review;
+Drop table if exists Award;
+Drop table if exists Soundtrack;
+Drop table if exists Dev_Team;
+Drop table if exists Console;
+Drop table if exists Game;
+
+-- Creating tables
+CREATE TABLE Game (
+Game_No VARCHAR(4) NOT NULL,
+Title VARCHAR(50) NOT NULL,
+Series VARCHAR(50) NOT NULL,
+Genre VARCHAR(50) NOT NULL,
+Release_Date VARCHAR(20) NOT NULL,
+CONSTRAINT Game_PK
+	PRIMARY KEY (Game_No)
+);
+
+CREATE TABLE Console (
+Console_No VARCHAR(4) NOT NULL,
+Name VARCHAR(50) NOT NULL,
+Controller_Ports INT,
+Year INT,
+Media VARCHAR(25) NOT NULL,
+CONSTRAINT Console_PK
+	PRIMARY KEY (Console_No)
+);
+
+CREATE TABLE Dev_Team (
+Name VARCHAR(30) NOT NULL,
+Producer VARCHAR(30),
+Designer VARCHAR(30),
+Writer VARCHAR(30),
+Game_No VARCHAR(4),
+CONSTRAINT Dev_FK
+	FOREIGN KEY (Game_No)
+		REFERENCES Game(Game_No)
+);
+
+CREATE TABLE Soundtrack (
+Song_No VARCHAR(5) NOT NULL,
+Song_Name VARCHAR(255) NOT NULL,
+Composer VARCHAR(20) NOT NULL,
+Length VARCHAR(10) NOT NULL,
+Game_No VARCHAR(4) NOT NULL,
+CONSTRAINT Sountrack_PK
+	PRIMARY KEY (Song_No),
+CONSTRAINT Soundtrack_FK
+	FOREIGN KEY (Game_No)
+		REFERENCES Game(Game_No)
+);
+
+CREATE TABLE Award (
+Publication VARCHAR(50) NOT NULL,
+Award VARCHAR(50) NOT NULL,
+Year_Awarded INT NOT NULL,
+Game_No VARCHAR(4) NOT NULL,
+CONSTRAINT Awards_FK
+	FOREIGN KEY (Game_No)
+		REFERENCES Game(Game_No)
+);
+
+CREATE TABLE Review (
+Critic VARCHAR(25) NOT NULL,
+Rating VARCHAR(5) NOT NULL,
+Game_No VARCHAR(4) NOT NULL,
+CONSTRAINT Reviews_FK
+	FOREIGN KEY (Game_No)
+		REFERENCES Game(Game_No)
+);
+
+
+CREATE TABLE Profit (
+Price VARCHAR(10) NOT NULL,
+Units_Shipped VARCHAR(10) NOT NULL,
+Total_Profit VARCHAR(25) NOT NULL,
+Console_No VARCHAR(4) NOT NULL,
+CONSTRAINT Profit_FK
+	FOREIGN KEY (Console_No)
+		REFERENCES Console(Console_No)
+);
+
+CREATE TABLE Play (
+Game_No VARCHAR(4) NOT NULL,
+Console_No VARCHAR(4) NOT NULL,
+CONSTRAINT Play_Game
+	FOREIGN KEY (Game_No)
+		REFERENCES Game(Game_No),
+CONSTRAINT Play_Console
+	FOREIGN KEY (Console_No)
+		REFERENCES Console(Console_No)
+);
+
+-- Inserting into tables
