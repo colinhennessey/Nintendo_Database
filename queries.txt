@@ -1,0 +1,40 @@
+-- Basic
+
+--  Print all distinct game series
+SELECT DISTINCT Series FROM game
+
+--  Print all games in descending order that can be played on Console Number C001
+SELECT Game_No, Console_No FROM play WHERE Console_No = 'C001' ORDER BY Game_No DESC
+
+--  Print dev team name and game number where the Writer has the last name Tezuka
+SELECT Name, Game_No FROM dev_team WHERE Writer LIKE '%Tezuka'
+
+-- Select console names that have 2 controller ports or use a disc
+SELECT Name FROM console WHERE Controller_Ports = 2 OR Media LIKE '%Disc'
+
+
+
+-- Intermediate
+
+--  Count the number of songs that are composed by Koji Kondo
+SELECT COUNT(*) AS count FROM soundtrack WHERE Composer = 'Koji Kondo'
+
+--  Select composer and the count of the songs they composed, grouped by composer
+SELECT Composer, COUNT(Song_Name) AS count FROM soundtrack GROUP BY Composer ORDER BY count
+
+--  Select composer and the count of the songs they composed, where count > 100, grouped by composer
+SELECT Composer, COUNT(Song_Name) AS count FROM soundtrack GROUP BY Composer HAVING count > 100 ORDER BY count
+
+
+
+
+-- Advanced
+
+--  Select all games that have a review
+SELECT g.Title, r.rating FROM Game g, Review r WHERE g.Game_No = r.Game_No
+
+--  Select all games and their review, even if it is nonexistant 
+SELECT g.Title, r.rating FROM Game g left JOIN Review r on g.Game_No = r.Game_No
+
+--  Create a view for the producer of a dev team
+CREATE VIEW Manager AS SELECT * FROM dev_team WHERE Producer = 'Eiji Aonuma'
